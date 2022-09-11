@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body onload="prepareData()">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-success btn-sm" onclick="openAddModal()">ADD ITEM + </button>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>BRAND</th>
+                    <th>PRICE</th>
+                    <th>AMOUNT</th>
+                    <th width="7%">DETAILS</th>
+                    <th width="5%">DELETE</th>
+                </tr>
+                </thead>
+                <tbody id = "itemList"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteItemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabe" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabe">Delete Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="hidden" id = "deleteItemId">
+                        <h6 class="text-center">
+                            Are you sure?
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteItem()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addItemModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <label>NAME : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" id = "addItemName" placeholder="Name">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>BRAND : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select class="form-select" id = "addItemBrand"></select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>PRICE : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="number" class="form-control" id = "addItemPrice" placeholder="Price" value="0">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>AMOUNT : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="number" class="form-control" id = "addItemAmount" placeholder="Amount" value="0">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="addItem()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="itemDetailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLab" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLab">Edit Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id = "editItemId">
+                <div class="row">
+                    <div class="col-12">
+                        <label>NAME : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" id = "editItemName" placeholder="Name">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>BRAND : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select class="form-select" id = "editItemBrand"></select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>PRICE : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="number" class="form-control" id = "editItemPrice" placeholder="Price" value="0">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>AMOUNT : </label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="number" class="form-control" id = "editItemAmount" placeholder="Amount" value="0">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="saveItem()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function prepareData() {
+        loadItems();
+        loadBrands();
+    }
+
+    function openAddModal(){
+        const myModal = new bootstrap.Modal('#addItemModal', {backdrop: true, focus:false, keyboard: false});
+        myModal.show();
+    }
+
+    function openDeleteModal(itemId){
+        const myModal = new bootstrap.Modal('#deleteItemModal', {backdrop: true, focus:false, keyboard: false});
+
+        deleteItemId.value = itemId;
+        myModal.show();
+    }
+
+    function openDetailsModal(itemId){
+        const myModal = new bootstrap.Modal('#itemDetailsModal', {backdrop: true, focus:false, keyboard: false});
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+
+            var item = JSON.parse(this.responseText);
+
+            editItemId.value = item.id;
+            editItemName.value = item.name;
+            editItemPrice.value = item.price;
+            editItemAmount.value = item.amount;
+            editItemBrand.value = item.brand.id;
+
+            myModal.show();
+        }
+        xhttp.open("GET", "http://localhost:8008/items/"+itemId);
+        xhttp.send();
+    }
+
+    function addItem() {
+
+        var bodyObj = {
+            "name": addItemName.value,
+            "price": addItemPrice.value,
+            "amount": addItemAmount.value,
+            "brand":{
+                "id": addItemBrand.value
+            }
+        }
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            loadItems();
+            addItemName.value = "";
+            addItemPrice.value = "0";
+            addItemAmount.value = "0";
+        }
+        xhttp.open("POST", "http://localhost:8008/items");
+        xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify(bodyObj));
+    }
+
+    function saveItem() {
+
+        var bodyObj = {
+            "id": editItemId.value,
+            "name": editItemName.value,
+            "price": editItemPrice.value,
+            "amount": editItemAmount.value,
+            "brand":{
+                "id": editItemBrand.value
+            }
+        }
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            loadItems();
+        }
+        xhttp.open("PUT", "http://localhost:8008/items");
+        xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify(bodyObj));
+    }
+
+    function loadItems() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            var items = JSON.parse(this.responseText);
+            var tableContent = "";
+            for(var i=0;i<items.length;i++){
+                tableContent+="<tr>";
+                tableContent+="<td>"+items[i].id+"</td>";
+                tableContent+="<td>"+items[i].name+"</td>";
+                tableContent+="<td>"+items[i].brand.name + " / " + items[i].brand.country +"</td>";
+                tableContent+="<td>"+items[i].price+"</td>";
+                tableContent+="<td>"+items[i].amount+"</td>";
+                tableContent+="<td><button class = 'btn btn-primary btn-sm' onclick = 'openDetailsModal("+items[i].id+")'>DETAILS</button></td>";
+                tableContent+="<td style = 'text-align:center;'><button class = 'btn btn-danger btn-sm' onclick = 'openDeleteModal("+items[i].id+")'>X</button></td>";
+                tableContent+="</tr>";
+            }
+            itemList.innerHTML = tableContent;
+        }
+        xhttp.open("GET", "http://localhost:8008/items");
+        xhttp.send();
+    }
+
+    function loadBrands() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            var brands = JSON.parse(this.responseText);
+            var brandContent = "";
+            for(var i=0;i<brands.length;i++){
+                brandContent+="<option value = '"+brands[i].id+"'>";
+                brandContent+=brands[i].name + " / " + brands[i].country;
+                brandContent+="</option>";
+            }
+            addItemBrand.innerHTML = brandContent;
+            editItemBrand.innerHTML = brandContent;
+        }
+        xhttp.open("GET", "http://localhost:8008/brands");
+        xhttp.send();
+    }
+
+    function deleteItem() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            loadItems();
+        }
+        xhttp.open("DELETE", "http://localhost:8008/items/"+deleteItemId.value);
+        xhttp.send();
+    }
+</script>
+</body>
+</html>
